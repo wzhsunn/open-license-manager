@@ -1,24 +1,34 @@
 
+
 include_directories(${Boost_INCLUDE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-link_directories ( ${Boost_LIBRARY_DIR} )
+link_directories ("F:\\boost_1_55_0\\stage\\lib\\")
 
+message("license-generator boost_library_dir"  ${Boost_LIBRARY_DIR})
+message("license-generator boost_include_dir"  ${Boost_INCLUDE_DIR})
 
 ADD_LIBRARY(
     license_generator_lib STATIC
     license-generator.cpp
 )
 
+
 target_link_libraries(
      license_generator_lib
      tools_base
      license++_static
-	 $<$<CONFIG:Debug>:${Boost_PROGRAM_OPTIONS_LIBRARY_DEBUG}>
-     $<$<NOT:$<CONFIG:Debug>>:${Boost_PROGRAM_OPTIONS_LIBRARY_RELEASE}>	 
-	 $<$<CONFIG:Debug>:${Boost_SYSTEM_LIBRARY_DEBUG}>
-     $<$<NOT:$<CONFIG:Debug>>:${Boost_SYSTEM_LIBRARY_RELEASE}>	 
+     $<$<CONFIG:Debug>:libboost_system-vc-mt-sgd-1_55.lib>
+     $<$<NOT:$<CONFIG:Debug>>:libboost_system-vc-mt-s-1_55>	 
+	 $<$<CONFIG:Debug>:libboost_program_options-vc-mt-sgd-1_55.lib>
+     $<$<NOT:$<CONFIG:Debug>>:libboost_program_options-vc-mt-s-1_55>	 
+    #  libboost_system-vc-mt-s-1_55
+    #  libboost_program_options-vc-mt-s-1_55
+	
      ${EXTERNAL_LIBS}
 )
+
+message("external_libs: "  ${EXTERNAL_LIBS})
+message("CMAKE_LIBRARY_PATH " ${CMAKE_LIBRARY_PATH})
 
 add_executable(
  license_generator

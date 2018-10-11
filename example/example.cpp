@@ -15,20 +15,20 @@ int main(int argc, char *argv[])
     stringByEventType[FILE_FORMAT_NOT_RECOGNIZED      ] = "license file has invalid format (not .ini file) ";
     stringByEventType[LICENSE_MALFORMED               ] = "some mandatory field are missing, or data can't be fully read. ";
     stringByEventType[PRODUCT_NOT_LICENSED            ] = "this product was not licensed ";
-    stringByEventType[PRODUCT_EXPIRED                 ] = "licence expired ";
+    stringByEventType[PRODUCT_EXPIRED                 ] = "license expired ";
     stringByEventType[LICENSE_CORRUPTED               ] = "license signature didn't match with current license ";
     stringByEventType[IDENTIFIERS_MISMATCH            ] = "Calculated identifier and the one provided in license didn't match";
-    stringByEventType[LICENSE_FILE_FOUND              ] = "licence file not found ";
-    stringByEventType[LICENSE_VERIFIED                ] = "licence verified ";
+    stringByEventType[LICENSE_FILE_FOUND              ] = "license file not found ";
+    stringByEventType[LICENSE_VERIFIED                ] = "license verified ";
     
-    const string licLocation("example.lic");
+    const string licLocation("wrc.lic");
     
     LicenseInfo licenseInfo;
     LicenseLocation licenseLocation;
     licenseLocation.openFileNearModule = false;
     licenseLocation.licenseFileLocation = licLocation.c_str();
     licenseLocation.environmentVariableName = "";
-    EVENT_TYPE result = acquire_license("example", licenseLocation, &licenseInfo);
+    EVENT_TYPE result = acquire_license("wrc", licenseLocation, &licenseInfo);
     
     if (result != LICENSE_OK){
         PcSignature signature;
@@ -40,5 +40,5 @@ int main(int argc, char *argv[])
         cout << "    " << signature << endl;
     }
     else
-        cout << "licence OK" << endl;
+        cout << "license OK" << endl;
 }

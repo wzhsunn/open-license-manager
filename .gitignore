@@ -17,3 +17,5 @@
 # Cmake generated files
 build
 
+install
+.vscode

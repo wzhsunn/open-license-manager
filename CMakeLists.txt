@@ -16,13 +16,25 @@ SET(CMAKE_DISABLE_SOURCE_CHANGES ON)
 SET(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 SET(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "CMake verbose" FORCE)
 
+set(CMAKE_INCLUDE_PATH "F:\\boost_1_55_0\\")
+set(CMAKE_LIBRARY_PATH "F:\\boost_1_55_0\\stage\\lib\\")
+
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+set(CMAKE_CXX_FLAGS_DEBUG  "${CMAKE_CXX_FLAGS_DEBUG} /MTd")
+
+message(STATUS ${CMAKE_INCLUDE_PATH})
+
 project (license++ C CXX)
 SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/modules/")
+message(${CMAKE_MODULE_PATH})
 
+
+message(${PROJECT_NAME})
 include(utilities)
 if(CMAKE_BUILD_TYPE)
 	string(TOLOWER ${CMAKE_BUILD_TYPE} _CMAKE_BUILD_TYPE)
+	MESSAGE(status ${_CMAKE_BUILD_TYPE})
 	EVAL_CONDITION(RELEASE_BUILD ${_CMAKE_BUILD_TYPE} STREQUAL "release")
 else(CMAKE_BUILD_TYPE)
 	set(RELEASE_BUILD 0)
@@ -31,6 +43,7 @@ endif(CMAKE_BUILD_TYPE)
 if(MSVC)
 	SET(PLATFORM_LIBS "")
 	include(target_arch)
+	message(STATUS ${target_arch})
 	target_architecture( TARGET_ARCHITECTURE )
 	message(STATUS "architecture detected: ${TARGET_ARCHITECTURE}")
 	#force to patch an error in cmake
@@ -74,6 +87,8 @@ find_package(Boost 1.55.0 COMPONENTS date_time unit_test_framework program_optio
 add_definitions(-DBOOST_ALL_NO_LIB) #Disable Boost Microsoft magic, all dependencies are handled by cmake
 add_definitions(-DBOOST_LIB_DIAGNOSTIC) #Check it is really disabled
 
+
+
 if(NOT MSVC)	
 	#find a static version of openssl crypto library
 	find_package(OpenSSL REQUIRED)
@@ -109,13 +124,15 @@ include_directories(${CMAKE_BINARY_DIR})
 
 add_subdirectory(src)
 
-INCLUDE(CTest)
-ENABLE_TESTING()
-IF(BUILD_TESTING)
-  SET(BUILDNAME "${BUILDNAME}" CACHE STRING "Name of build on the dashboard")
-  MARK_AS_ADVANCED(BUILDNAME)
-ENDIF(BUILD_TESTING)
-add_subdirectory(test)
+# INCLUDE(CTest)
+# ENABLE_TESTING()
+# IF(BUILD_TESTING)
+#   SET(BUILDNAME "${BUILDNAME}" CACHE STRING "Name of build on the dashboard")
+#   MARK_AS_ADVANCED(BUILDNAME)
+# ENDIF(BUILD_TESTING)
+# add_subdirectory(test)
+
+add_subdirectory(example)
 
 message( STATUS "C compiler: " ${CMAKE_C_COMPILER})
 message( STATUS "C compiler flags: " ${CMAKE_C_FLAGS})
